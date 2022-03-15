@@ -63,7 +63,7 @@ jobs:
       - name: Deploy to k8s
         uses: kodermax/kubectl-aws-eks@master
         with:
-          args: rollout restart deployment testing -n $KUBE_NAMESPACE
+          args: rollout restart deployment allure2 -n $KUBE_NAMESPACE
 
   check-k8s-deployments:
     needs: [deploy-to-k8s]
@@ -73,4 +73,4 @@ jobs:
       - name: Check k8s deployments
         uses: kodermax/kubectl-aws-eks@master
         with:
-          args: rollout status deployment testing -n $KUBE_NAMESPACE --timeout=120s
+          args: rollout status deployment allure2 -n $KUBE_NAMESPACE --timeout=120s
