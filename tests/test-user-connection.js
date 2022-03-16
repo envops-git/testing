@@ -23,7 +23,6 @@ const timeoutURL = '#/client/MTMAYwBwb3N0Z3Jlc3Fs';
   await page.click(`a[href='${clientURL}']`);
   await sleep(6000);
   const errorCount = await page.locator(':text("Connection Error")').count();
-  console.log(errorCount);
   if(errorCount > 0){
     console.log("Connection Error, See guacamole logs for info.");
   } else {
