@@ -7,7 +7,7 @@ function sleep(ms) {
 if(process.argv[2] == "help"){
   console.log("Usage: node test-user-connection.js [username] [password] [clientName]");
 } else {
-  const username = process.argv[2];
+const username = process.argv[2];
 const password = process.argv[3];
 const clientName = process.argv[4];
 
