@@ -4,10 +4,12 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const username = "admin";
-const password = "admin";
-const clientURL = "#/client/MTkAYwBwb3N0Z3Jlc3Fs";
-const timeoutURL = '#/client/MTMAYwBwb3N0Z3Jlc3Fs';
+if(process.argv[2] == "help"){
+  console.log("Usage: node test-user-connection.js [username] [password] [clientName]");
+} else {
+  const username = process.argv[2];
+const password = process.argv[3];
+const clientName = process.argv[4];
 
 (async () => {
   const browser = await chromium.launch({headless: true});
@@ -20,7 +22,7 @@ const timeoutURL = '#/client/MTMAYwBwb3N0Z3Jlc3Fs';
   await page.keyboard.press('Tab');
   await page.keyboard.press('Enter');
   await sleep(3000);
-  await page.click(`a[href='${clientURL}']`);
+  await page.click(`:text("${clientName}")`);
   await sleep(6000);
   const errorCount = await page.locator(':text("Connection Error")').count();
   if(errorCount > 0){
@@ -32,4 +34,6 @@ const timeoutURL = '#/client/MTMAYwBwb3N0Z3Jlc3Fs';
   await browser.close();
   console.log("Browser closed");
   process.exit(0);
-})();
+})();}
+
+
