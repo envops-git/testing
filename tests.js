@@ -28,7 +28,7 @@ function testUserConnection(username, password, clientName) {
         if (error instanceof playwright.errors.TimeoutError) {
           console.log("No connection by that name");
           await browser.close();
-          errorCode = "2: No client with that name";
+          errorCode = "{errorCode: '2', msg: 'No client by that name'}";
           resolve(errorCode);
         }
       }
@@ -38,11 +38,11 @@ function testUserConnection(username, password, clientName) {
         await browser.close();
         if (errorCount > 0) {
           console.log("Connection Error, See guacamole logs for info.");
-          errorCode = "1: Connection Error, See guacamole logs for info.";
+          errorCode = "{errorCode: '1', msg: 'Can't establish connection (test failed)'}";
           resolve(errorCode);
         } else {
           console.log("Connection Successful");
-          errorCode = "0: Connection Successful";
+          errorCode = "{errorCode: '0', msg: 'Connection Successful (test passed)'}";
           resolve(errorCode);
         }
       }
