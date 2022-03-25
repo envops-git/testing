@@ -16,9 +16,9 @@ app.use(bodyParser.json());
 app.post('/api/tests/testConnection', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
-    const client = req.body.client;
+    const name = req.body.name;
     const result = () => {
-        tests.testUserConnection(username, password, client)
+        tests.testUserConnection(username, password, name)
             .then(errorCode => {
                 res.send(errorCode);
             });
