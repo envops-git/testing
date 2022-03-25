@@ -12,4 +12,4 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y openjdk-11-jre
 
-CMD ["node", "restapi/api.js"]
+CMD ["node", "restapi/test-api.js"]
