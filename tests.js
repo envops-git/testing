@@ -13,7 +13,7 @@ function testUserConnection(username, password, clientName) {
       const browser = await playwright.chromium.launch({ headless: true });
       const context = await browser.newContext();
       const page = await context.newPage();
-      await page.goto('http://ec2-54-87-66-8.compute-1.amazonaws.com:32001/guacamole/#/');
+      await page.goto('https://test.envops.com/guacamole/#/');
       await sleep(3000);
       await page.keyboard.type(username);
       await page.keyboard.press('Tab');
