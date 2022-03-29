@@ -19,8 +19,8 @@ app.post('/api/tests/testConnection', (req, res) => {
     const client = req.body.client;
     const result = () => {
         tests.testUserConnection(username, password, client)
-            .then(errorCode => {
-                res.send(errorCode);
+            .then(result => {
+                res.send(result);
             });
     }
     result();
