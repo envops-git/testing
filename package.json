@@ -10,7 +10,7 @@
     "allure:open": "npx allure open ./allure-report",
     "allure:serve": "npx allure serve",
     "test": "npx playwright test --project=chromium",
-    "posttest": "npm run allure:generate && npm run allure:open"
+    "posttest": "npm run allure:generate"
   },
   "dependencies": {
     "body-parser": "^1.19.2",
