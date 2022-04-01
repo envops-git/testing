@@ -1,4 +1,4 @@
-FROM node:bullseye
+FROM node:slim
 
 ENV PATH "$PATH:/root/home/node_modules/allure-commandline/bin"
 
@@ -14,4 +14,4 @@ RUN npm ci
 
 RUN npx playwright install-deps
 
-CMD ["node", "testing-api.js"]
+CMD ["npx", "playwright", "install-deps", "&&", "node", "testing-api.js"]
