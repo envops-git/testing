@@ -1,4 +1,4 @@
-FROM node:slim
+FROM mcr.microsoft.com/playwright:v1.15.0-focal
 
 ENV PATH "$PATH:/root/home/node_modules/allure-commandline/bin"
 
