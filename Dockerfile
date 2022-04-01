@@ -12,4 +12,6 @@ COPY . .
 
 RUN npm ci
 
-CMD ["npx", "playwright", "install-deps", "&&", "node", "testing-api.js"]
+RUN node testing-api.js
+
+CMD ["npx", "playwright", "install-deps"]
