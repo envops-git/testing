@@ -27,7 +27,7 @@ function testUserConnection(username, password, connectionName) {
                 if (error instanceof playwright.errors.TimeoutError) {
                     console.log("No connection by that name");
                     await browser.close();
-                    exitCode = "{\"errorCode\": \"2\", \"msg\": \"No client by that name (didn't test)\"}";
+                    exitCode = "{\"exitCode\": \"2\", \"msg\": \"No client by that name (didn't test)\"}";
                     resolve(exitCode);
                 }
             }
@@ -37,11 +37,11 @@ function testUserConnection(username, password, connectionName) {
                 await browser.close();
                 if (count > 0) {
                     console.log("Connection Error, See guacamole logs for info.");
-                    exitCode = "{\"errorCode\": \"1\", \"msg\": \"Connection failed (test failed)\"}";
+                    exitCode = "{\"exitCode\": \"1\", \"msg\": \"Connection failed (test failed)\"}";
                     resolve(exitCode);
                 } else {
                     console.log("Connection Successful");
-                    exitCode = "{\"errorCode\": \"0\", \"msg\": \"Connection successful (test passed)\"}";
+                    exitCode = "{\"exitCode\": \"0\", \"msg\": \"Connection successful (test passed)\"}";
                     resolve(exitCode);
                 }
             }

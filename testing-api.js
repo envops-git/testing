@@ -13,11 +13,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/api/tests/testConnection', (req, res) => {
+
+    console.log("POST to testConnection");
+
     const username = req.body.username;
     const password = req.body.password;
-    const name = req.body.name;
+    const connectionName = req.body.name;
     const result = () => {
-        testUserConnection(username, password, name)
+        testUserConnection(username, password, connectionName)
             .then(result => {
                 res.send(result);
             });
