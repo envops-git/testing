@@ -12,6 +12,4 @@ COPY . .
 
 RUN npm ci
 
-RUN npx playwright install-deps
-
 CMD ["npx", "playwright", "install-deps", "&&", "node", "testing-api.js"]
