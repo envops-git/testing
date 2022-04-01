@@ -8,4 +8,4 @@ COPY . .
 
 RUN npm ci
 
-CMD ["node", "api.js"]
+CMD ["node", "testing-api.js"]
