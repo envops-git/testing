@@ -12,4 +12,6 @@ COPY . .
 
 RUN npm ci
 
+RUN npx playwright install-deps
+
 CMD ["node", "testing-api.js"]
