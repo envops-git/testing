@@ -4,7 +4,7 @@ ENV PATH "$PATH:/root/home/node_modules/allure-commandline/bin"
 
 WORKDIR /root/home/
 
-RUN apt-get -y install default-jre
+RUN apt install default-jre
 
 COPY . .
 
