@@ -1,8 +1,10 @@
-FROM node:bullseye
+FROM node:slim
 
 ENV PATH "$PATH:/root/home/node_modules/allure-commandline/bin"
 
 WORKDIR /root/home/
+
+RUN apt-get install -y openjdk-11-jre
 
 COPY . .
 
