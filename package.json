@@ -7,7 +7,7 @@
   },
   "scripts": {
     "allure:generate": "npx allure generate ./allure-results --clean",
-    "allure:open": "npx allure open ./allure-report",
+    "allure:open": "npx allure open ./allure-report -p 3000",
     "allure:serve": "npx allure serve",
     "test": "npx playwright test --project=chromium",
     "posttest": "npm run allure:generate"
