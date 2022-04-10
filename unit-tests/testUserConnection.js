@@ -10,7 +10,7 @@ function testUserConnection(username, password, connectionName) {
         let exitCode;
 
         (async () => {
-            const browser = await playwright.chromium.launch({ headless: true });
+            const browser = await playwright.chromium.launch({ headless: false });
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -19,9 +19,17 @@ function testUserConnection(username, password, connectionName) {
             await page.fill('.ng-scope > [type="text"]', username);
             await page.fill('.ng-scope > [type="password"]', password);
             await page.click('.buttons >> [type="submit"]');
+            await sleep(500);
+            const count = await page.locator(':text("Invalid Login")').count();
+            if (count) {
+                console.log("Invalid Login Credentials");
+                await browser.close();
+                exitCode = "{\"exitCode\": \"3\", \"msg\": \"Invalid Login Credentials\"}";
+                resolve(exitCode);
+            }
             try {
                 await page.click(`:text("${connectionName}")`, {
-                    timeout: 10000
+                    timeout: 8000
                 });
             } catch (error) {
                 if (error instanceof playwright.errors.TimeoutError) {
@@ -48,5 +56,4 @@ function testUserConnection(username, password, connectionName) {
         })();
     });
 }
-
 module.exports = { testUserConnection };
