@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('http://ec2-54-87-66-8.compute-1.amazonaws.com:32000/guacamole/#/');
+    await page.goto('https://test.envops.com/guacamole/#/');
 });
 
 test.describe('Test connection to guacamole', () => {

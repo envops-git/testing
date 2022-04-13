@@ -10,7 +10,7 @@ function testUserConnection(username, password, connectionName) {
         let exitCode;
 
         (async () => {
-            const browser = await playwright.chromium.launch({ headless: true });
+            const browser = await playwright.chromium.launch({ headless: false });
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -56,4 +56,5 @@ function testUserConnection(username, password, connectionName) {
         })();
     });
 }
+
 module.exports = { testUserConnection };
