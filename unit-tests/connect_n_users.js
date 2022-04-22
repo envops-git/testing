@@ -231,7 +231,7 @@ function createConnections(connections, token, dataSource) {
     })
 }
 
-function deleteConnections(connectionIDs, token, dataSource){
+function deleteConnections(connectionIDs, token, dataSource) {
 
     let responseArr = [];
 
@@ -282,7 +282,65 @@ function deleteConnections(connectionIDs, token, dataSource){
     }
 }
 
+function assignConnections(connectionIDs, users, token, dataSource) {
+    let responseArr = [];
 
+    return new Promise(async function (resolve, reject) {
+        await Promise.all(users.map(async (user) => {
+            const status = await assignConnection(connectionIDs, user, token, dataSource)
+            responseArr.push(status)
+        }))
+        resolve(responseArr)
+    })
+    function assignConnection(connectionIDs, user, token, dataSource) {
+        return new Promise(async function (resolve, reject) {
+            try {
+
+                const id = connectionIDs[user.username]
+
+                const reqBody = [
+                    {
+                      "op": "add",
+                      "path": `/connectionPermissions/${id}`,
+                      "value": "READ"
+                    }
+                  ]
+
+                const response = await axios.patch(
+                    `https://test.envops.com/guacamole/api/session/data/${dataSource}/users/${user.username}/permissions`,
+                    reqBody,
+                    {
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },  
+                        params: {
+                            'token': token
+                        }
+                    }
+                )
+                resolve({ connection: user.username, user: user.username, status: response.status })
+            } catch (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log('Error', error.message);
+                }
+                console.log(error.config);
+                resolve({connection: user.username, user: user.username, status: error.response.status })
+            }
+        })
+    }
+}
 
 function connect_n_users(n) {
     return new Promise(async function (resolve, reject) {
@@ -306,14 +364,14 @@ function connect_n_users(n) {
         //TODO get connectionParams
 
         const tempConnectionParams = [
-            { name: 'test-0', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389'}},
-            { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389'}},
-            { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389'}},
+            { name: 'test-0', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
         ]
 
         console.log('\n')
-        
-        const createConnectionResult = await createConnections( tempConnectionParams, token, dataSource);
+
+        const createConnectionResult = await createConnections(tempConnectionParams, token, dataSource);
 
         const connectionIDs = {}
 
@@ -326,6 +384,14 @@ function connect_n_users(n) {
 
         //TODO assign users to connections
 
+        console.log('\n')
+
+        const assignConnectionsResult = await assignConnections(connectionIDs, users, token, dataSource);
+
+        console.log('Assign connections response list:')
+        assignConnectionsResult.forEach(result => {
+            console.log(`Connection: ${result.connection}, User: ${result.user} Status: ${result.status}`)
+        });
         //TODO connect users to connections
         //TODO hang X seconds
         //TODO close connections
