@@ -365,8 +365,8 @@ function connect_n_users(n) {
 
         const tempConnectionParams = [
             { name: 'test-0', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
-            // { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
-            // { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
         ]
 
         const createConnectionResult = await createConnections(tempConnectionParams, token, dataSource);
@@ -380,8 +380,6 @@ function connect_n_users(n) {
             connectionIDs[result.connection] = result.id
         });
 
-        //TODO assign users to connections
-
         const assignConnectionsResult = await assignConnections(connectionIDs, users, token, dataSource);
 
         console.log('Assign connections response list:')
@@ -389,7 +387,7 @@ function connect_n_users(n) {
             console.log(`Connection: ${result.connection}, User: ${result.user} Status: ${result.status}`)
         });
 
-        const testConnectionResult = await testConnections(users, 60);
+        const testConnectionResult = await testConnections(users, 15);
 
         console.log('test connections response list:')
         testConnectionResult.forEach(result => {
@@ -414,6 +412,6 @@ function connect_n_users(n) {
     })
 }
 
-connect_n_users(1)
+connect_n_users(3)
 
 module.exports = { connect_n_users };
