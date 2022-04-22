@@ -4,9 +4,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function connectUser(user, browser) {
-    return new Promise(function (resolve, reject) {
-        (async () => {
+function connectUser(user, seconds, browser ) {
+    return new Promise(async function (resolve, reject) {
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -20,25 +19,32 @@ function connectUser(user, browser) {
             const isLogin = await page.locator(':text("Invalid Login")', { timeout: 3000}).count();
             
             if (isLogin) {
-                console.log(`${user.username} login failed.`);
                 resolve(`${user.username} login failed.`);
             } else {
-                console.log(`${user.username} logged in.`);
                 resolve(`${user.username} logged in`);
             }
 
-            await sleep(3000);
+            seconds = seconds * 1000;
+
+            await sleep(seconds);
             await browser.close();
-        })()
     })
 }
 
-async function testMultipleUsersConnection(users) {
+async function testConnections(users, seconds) {
+    return new Promise(async function (resolve, reject) {
+
+    responseArr = []
+
     const browser = await playwright.chromium.launch({ headless: false });
 
-    await Promise.all(users.map(user => {
-        connectUser(user, browser)
+    await Promise.all(users.map(async user => {
+        const status = await connectUser(user, seconds, browser );
+        responseArr.push(status);
     }))
+
+    resolve(responseArr)
+    })
 }
 
 
@@ -53,10 +59,4 @@ function createUsersArr(length){
     return users
 }
 
-
-const users = createUsersArr(5)
-
-testMultipleUsersConnection(users);
-
-
-module.exports = { testMultipleUsersConnection };
+module.exports = { testConnections };

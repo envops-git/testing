@@ -1,7 +1,5 @@
 
-
-const { response } = require('express');
-const playwright = require('playwright');
+const { testConnections } = require('./testConnections');
 const axios = require('axios').default;
 
 
@@ -346,6 +344,8 @@ function connect_n_users(n) {
     return new Promise(async function (resolve, reject) {
         if (!n) {
             reject('Provide paramater for user amount.');
+        } else if (n < 1) {
+            reject('Provide at least 1 for user amount.');
         }
 
         const users = createTestUsersArray(n);
@@ -365,8 +365,8 @@ function connect_n_users(n) {
 
         const tempConnectionParams = [
             { name: 'test-0', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
-            { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
-            { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            // { name: 'test-1', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
+            // { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
         ]
 
         console.log('\n')
@@ -392,9 +392,16 @@ function connect_n_users(n) {
         assignConnectionsResult.forEach(result => {
             console.log(`Connection: ${result.connection}, User: ${result.user} Status: ${result.status}`)
         });
-        //TODO connect users to connections
-        //TODO hang X seconds
-        //TODO close connections
+
+        console.log('\n')
+
+        const testConnectionResult = await testConnections(users, 60);
+
+        console.log('test connections response list:')
+        testConnectionResult.forEach(result => {
+            console.log(result)
+        });
+
 
         console.log('\n')
 
@@ -419,6 +426,6 @@ function connect_n_users(n) {
     })
 }
 
-connect_n_users(3)
+connect_n_users(1)
 
 module.exports = { connect_n_users };
