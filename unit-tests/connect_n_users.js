@@ -369,8 +369,6 @@ function connect_n_users(n) {
             // { name: 'test-2', protocol: 'rdp', parameters: { hostname: 'chrome-pg', port: '3389' } },
         ]
 
-        console.log('\n')
-
         const createConnectionResult = await createConnections(tempConnectionParams, token, dataSource);
 
         const connectionIDs = {}
@@ -384,16 +382,12 @@ function connect_n_users(n) {
 
         //TODO assign users to connections
 
-        console.log('\n')
-
         const assignConnectionsResult = await assignConnections(connectionIDs, users, token, dataSource);
 
         console.log('Assign connections response list:')
         assignConnectionsResult.forEach(result => {
             console.log(`Connection: ${result.connection}, User: ${result.user} Status: ${result.status}`)
         });
-
-        console.log('\n')
 
         const testConnectionResult = await testConnections(users, 60);
 
@@ -402,18 +396,12 @@ function connect_n_users(n) {
             console.log(result)
         });
 
-
-        console.log('\n')
-
         const deleteConnectionsResult = await deleteConnections(connectionIDs, token, dataSource);
 
         console.log('Delete connections response list:')
         deleteConnectionsResult.forEach(result => {
             console.log(`Connection: ${result.connection}, Status: ${result.status}`)
         });
-
-
-        console.log('\n')
 
         const deleteUsersResult = await deleteUsers(users, token, dataSource)
 
